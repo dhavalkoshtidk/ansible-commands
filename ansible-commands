@@ -1,0 +1,50 @@
+// list the hosts
+ansible --list-hosts all
+
+// list the specific group of hosts
+ansible --list-hosts webservers
+ansible --list-hosts loadbalacer
+
+// List the 2 specific group of hosts
+ansible --list-hosts webservers:loadbalancers
+
+// List the hosts except one specific group of hosts
+ansible --list-hosts \!constrol
+
+// Display the first webserver
+ansible --list-hosts webservers[0]
+
+// ping all the hosts
+ansible -m ping all
+
+// Run shell command on the hosts
+ansible -m shell -a "uname" webservers:loadbalancers
+
+// stop/start a service on one of the hosts
+ansible -m service -a "name=apache2 state=stopped" --become loadbalancers
+
+// Display the varialbles created during gethering facts step
+ansible -m setup hostname
+ansible -m setup app1 
+ansible -m setup webservers
+
+// create an ansible-role
+ansible-galaxy role init roles/webservers
+
+// Run playbook in check mode
+ansible-playbook setup-app.yml --check
+
+// Run a specific tast in the playbook marked with the tag
+ansible-playbook setup-app.yml --tags upload
+
+// Skip a specific task in the playbook marked with the tag
+ansible-playbook setup-app.yml --skip-tags upload
+
+// Create encrypted data file(vault)
+ansible-vault create secret-variables.yml
+
+// Edit encrypted data file(vault)
+ansible-vault edit secret-variables.yml
+
+// Use encrypted data file(vault)
+ansible-vault setup-app.yml --ask-vault-pass
